@@ -1,3 +1,6 @@
+[![Pipeline Sprint RestAPI](https://github.com/AndersonDominguesRS/Projeto_Bloco_Endenharia_Disciplinada_TP5/actions/workflows/pipeline.yml/badge.svg)](https://github.com/AndersonDominguesRS/Projeto_Bloco_Endenharia_Disciplinada_TP5/actions/workflows/pipeline.yml)
+
+
 # Projeto Sprint RestAPI
 
 ![Build Status](https://github.com/SEU_USUARIO/SEU_REPOSITORIO/actions/workflows/pipeline.yml/badge.svg)
