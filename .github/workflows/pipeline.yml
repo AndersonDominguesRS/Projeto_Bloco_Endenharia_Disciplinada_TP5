@@ -24,9 +24,9 @@ jobs:
 
       - name: Permissão para Gradle
         # Note que mudei para 'Api' (minúsculo) para bater com sua imagem
-        run: chmod +x ./Sprint-RestApi/gradlew
+        run: chmod +x ./Sprint-RestAPI-TP5/gradlew
 
       - name: Executar Build e Testes
         # Ajustado o nome da pasta aqui também
-        working-directory: ./Sprint-RestApi
+        working-directory: ./Sprint-RestAPI-TP5
         run: ./gradlew clean test
