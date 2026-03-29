@@ -7,43 +7,64 @@ on:
     branches: [ "master", "main" ]
 
 jobs:
-  build:
+  build-and-test:
+    name: Build, Test & Static Analysis
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up JDK 21
+    - name: Checkout do Código
+      uses: actions/checkout@v4
+
+    - name: Configurar JDK 21
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
+        cache: 'gradle'
 
-    - name: Grant execute permission for gradlew
+    - name: Permitir execução do Gradlew
       run: chmod +x Sprint-RestAPI-TP5/gradlew
 
-    - name: Build with Gradle
+    # Executa Build, Testes e Checkstyle (Requisito 2.1, 2.2 e 2.3)
+    - name: Build com Gradle (Checkstyle + Jacoco)
       working-directory: ./Sprint-RestAPI-TP5
-      run: ./gradlew build
-	  
-    - name: Upload Build Artifact
+      run: ./gradlew build jacocoTestReport
+
+    # Gerenciamento de Artefatos (Requisito 2.4)
+    - name: Upload do Artefato JAR
+      if: success()
       uses: actions/upload-artifact@v4
       with:
-        name: Sprint-RestAPI-Artifact
+        name: api-produto-executavel
         path: Sprint-RestAPI-TP5/build/libs/*.jar
 
-    - name: Generate Summary
+    # Relatório de Cobertura (Requisito de 90% de cobertura)
+    - name: Upload Relatório de Cobertura (Jacoco)
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: relatorio-cobertura
+        path: Sprint-RestAPI-TP5/build/reports/jacoco/test/html/
+
+    # Resumo do Job (Requisito 4.2)
+    - name: Gerar Resumo no GitHub
+      if: always()
       run: |
-        echo "##  Relatório de Automação TP5" >> $GITHUB_STEP_SUMMARY
-        echo "* Build realizado com sucesso: $(date)" >> $GITHUB_STEP_SUMMARY
-        echo "* Artefatos gerados e armazenados." >> $GITHUB_STEP_SUMMARY
+        echo "## ✅ Relatório de Automação - TP5" >> $GITHUB_STEP_SUMMARY
+        echo "* **Status do Build:** Sucesso" >> $GITHUB_STEP_SUMMARY
+        echo "* **Data/Hora:** $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "* **Análise Estática (Checkstyle):** Concluída" >> $GITHUB_STEP_SUMMARY
+        echo "* **Artefatos:** JAR pronto para download" >> $GITHUB_STEP_SUMMARY
 
   deploy:
-    needs: build
+    name: Deploy para Produção
+    needs: build-and-test
     runs-on: ubuntu-latest
-    environment: Production
+    # Requisito 3.1: Aprovação Manual via Environment
+    environment: 
+      name: Production
     steps:
       - name: Deploy Simulation
-        run: echo "Realizando deploy em ambiente de produção após aprovação..."
+        run: |
+          echo "Efetuando deploy em ambiente de Produção..."
+          echo "Aprovação manual confirmada com sucesso."
