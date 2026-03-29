@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-public class Produto {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_produto", discriminatorType = DiscriminatorType.STRING)
+public abstract class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,15 @@ public class Produto {
     private Integer quantidade;
     private Double preco;
 
-    public static Produto criarNovo(String nome, Integer quantidade, Double preco) {
-        return new Produto(null, nome, quantidade, preco);
+    protected Produto(String nome, Integer quantidade, Double preco) {
+        this.nome = nome;
+        this.quantidade = quantidade;
+        this.preco = preco;
     }
+
+    public static Produto criarNovo(String nome, Integer quantidade, Double preco) {
+        return new ProdutoPadrao(nome, quantidade, preco);
+    }
+
+    public abstract Double getPrecoVenda();
 }

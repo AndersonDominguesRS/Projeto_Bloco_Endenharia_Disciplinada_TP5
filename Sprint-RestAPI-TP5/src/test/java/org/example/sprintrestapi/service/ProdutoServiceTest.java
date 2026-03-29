@@ -30,9 +30,10 @@ public class ProdutoServiceTest {
         String nome = "Produto Valido";
         Integer quantidade = 10;
 
-        if (mensagemEsperada.contains("Nome")) {
+        // Lógica de ajuste baseada na mensagem esperada para testar os diferentes IFs
+        if (mensagemEsperada.equals(ProdutoService.ERR_NOME)) {
             nome = "";
-        } else if (mensagemEsperada.contains("Quantidade")) {
+        } else if (mensagemEsperada.equals(ProdutoService.ERR_QTD)) {
             quantidade = 0;
         }
 
@@ -55,6 +56,7 @@ public class ProdutoServiceTest {
             produtoService.save(p);
         });
 
+        // Uso da constante do Service para garantir que o teste não quebre se a string mudar
         assertEquals(ProdutoService.ERR_PRECO, exception.getMessage());
     }
 
@@ -65,7 +67,8 @@ public class ProdutoServiceTest {
             produtoService.save(null);
         });
 
-        assertEquals("Produto nulo", exception.getMessage());
+        // Ajustado para usar a constante definida no seu ProdutoService
+        assertEquals(ProdutoService.ERR_PRODUTO_NULL, exception.getMessage());
     }
 
     @Test

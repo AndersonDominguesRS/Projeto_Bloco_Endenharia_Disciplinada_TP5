@@ -22,7 +22,18 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
+    /**
+     * Salva um produto aplicando as Cláusulas de Guarda exigidas no TP5.
+     * O método falha o mais rápido possível (fail-fast).
+     */
     public Produto save(Produto produto) {
+        validarProduto(produto);
+        return produtoRepository.save(produto);
+    }
+
+    private void validarProduto(Produto produto) {
+        // --- Cláusulas de Guarda (Substituem IFs aninhados) ---
+
         if (produto == null) {
             throw new IllegalArgumentException(ERR_PRODUTO_NULL);
         }
@@ -38,7 +49,5 @@ public class ProdutoService {
         if (produto.getQuantidade() == null || produto.getQuantidade() < 1) {
             throw new IllegalArgumentException(ERR_QTD);
         }
-
-        return produtoRepository.save(produto);
     }
 }
