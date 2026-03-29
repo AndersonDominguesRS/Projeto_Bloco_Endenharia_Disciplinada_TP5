@@ -23,10 +23,10 @@ jobs:
           cache: 'gradle'
 
       - name: Permissão para Gradle
-        # Note o caminho incluindo a subpasta
-        run: chmod +x ./Sprint-RestAPI/gradlew
+        # Note que mudei para 'Api' (minúsculo) para bater com sua imagem
+        run: chmod +x ./Sprint-RestApi/gradlew
 
       - name: Executar Build e Testes
-        # Define o working-directory para o Gradle saber onde está o build.gradle
-        working-directory: ./Sprint-RestAPI
+        # Ajustado o nome da pasta aqui também
+        working-directory: ./Sprint-RestApi
         run: ./gradlew clean test
