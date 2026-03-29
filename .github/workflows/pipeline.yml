@@ -34,7 +34,7 @@ jobs:
 
       - name: Job Summary (Markdown)
         run: |
-          echo "## ✅ Resultado do Build" >> $GITHUB_STEP_SUMMARY
+          echo "##  Resultado do Build" >> $GITHUB_STEP_SUMMARY
           echo "Build e Testes finalizados com sucesso." >> $GITHUB_STEP_SUMMARY
           echo "Relatório de cobertura gerado." >> $GITHUB_STEP_SUMMARY
 
@@ -42,7 +42,7 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     environment: 
-      name: Production  # Aqui você configura a aprovação manual no GitHub
+      name: Production
     steps:
       - name: Deploy Simulation
         run: echo "Realizando deploy seguro via OIDC..."
