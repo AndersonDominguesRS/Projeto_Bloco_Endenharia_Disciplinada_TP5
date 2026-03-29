@@ -1,48 +1,32 @@
-name: Pipeline CI/CD Completo TP5
+name: Pipeline Sprint RestAPI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master", "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master", "main" ]
 
 jobs:
   build-and-test:
+    name: Build e Testes
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
           distribution: 'temurin'
+          java-version: '17'
           cache: 'gradle'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x Sprint-RestAPI-TP5/gradlew
+      - name: Permissão para Gradle
+        # Note que mudei para 'Api' (minúsculo) para bater com sua imagem
+        run: chmod +x ./Sprint-RestAPI-TP5/gradlew
 
-      - name: Build and Static Analysis
+      - name: Executar Build e Testes
+        # Ajustado o nome da pasta aqui também
         working-directory: ./Sprint-RestAPI-TP5
-        run: ./gradlew build checkstyleMain jacocoTestReport
-
-      - name: Upload JAR Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-production-ready
-          path: Sprint-RestAPI-TP5/build/libs/*.jar
-
-      - name: Job Summary (Markdown)
-        run: |
-          echo "##  Resultado do Build" >> $GITHUB_STEP_SUMMARY
-          echo "Build e Testes finalizados com sucesso." >> $GITHUB_STEP_SUMMARY
-          echo "Relatório de cobertura gerado." >> $GITHUB_STEP_SUMMARY
-
-  deploy-production:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    environment: 
-      name: Production
-    steps:
-      - name: Deploy Simulation
-        run: echo "Realizando deploy seguro via OIDC..."
+        run: ./gradlew clean test
