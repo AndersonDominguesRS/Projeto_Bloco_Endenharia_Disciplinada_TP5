@@ -50,3 +50,23 @@ task uiTest(type: Test) {
     include '**/ProdutoUITest.class'
 }
 
+plugins {
+    id 'checkstyle'
+}
+
+checkstyle {
+    toolVersion = '10.12.5'
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
