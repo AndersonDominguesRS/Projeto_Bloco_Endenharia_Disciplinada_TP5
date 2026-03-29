@@ -27,25 +27,23 @@ jobs:
     - name: Build with Gradle
       working-directory: ./Sprint-RestAPI-TP5
       run: ./gradlew build
-
-    # Passo 2: Upload do Artefato JAR (Requisito 2.4 do TP5)
+	  
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
         name: Sprint-RestAPI-Artifact
         path: Sprint-RestAPI-TP5/build/libs/*.jar
 
-    # Passo 3: Resumo do Job em Markdown (Requisito 4.2 do TP5)
     - name: Generate Summary
       run: |
-        echo "## ✅ Relatório de Automação TP5" >> $GITHUB_STEP_SUMMARY
+        echo "##  Relatório de Automação TP5" >> $GITHUB_STEP_SUMMARY
         echo "* Build realizado com sucesso: $(date)" >> $GITHUB_STEP_SUMMARY
         echo "* Artefatos gerados e armazenados." >> $GITHUB_STEP_SUMMARY
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: Production # Isso ativa a aprovação manual se configurado no GitHub
+    environment: Production
     steps:
       - name: Deploy Simulation
         run: echo "Realizando deploy em ambiente de produção após aprovação..."
