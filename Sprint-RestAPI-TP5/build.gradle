@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.3'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Web (necessário para @RestController)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Data JPA (necessário para @Entity, @Id, etc.)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Banco de dados H2 (pode trocar por MySQL)
+    runtimeOnly 'com.h2database:h2'
+
+    // Testes Spring
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.17.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.7.0'
+
+
+}
+
+test {
+    useJUnitPlatform()
+    exclude '**/ProdutoUITest.class'
+}
+
+task uiTest(type: Test) {
+    useJUnitPlatform()
+    include '**/ProdutoUITest.class'
+}
+
