@@ -5,11 +5,10 @@ on:
     branches: [ "master", "main" ]
   pull_request:
     branches: [ "master", "main" ]
-  workflow_dispatch:
 
 jobs:
   build-and-test:
-    name: Build e Testes Unitários
+    name: Build e Testes
     runs-on: ubuntu-latest
 
     steps:
@@ -20,20 +19,14 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17' # Alinhado com o seu build.gradle
+          java-version: '17'
           cache: 'gradle'
 
-      - name: Permissão para Gradle Wrapper
-        run: chmod +x ./gradlew
+      - name: Permissão para Gradle
+        # Note o caminho incluindo a subpasta
+        run: chmod +x ./Sprint-RestAPI/gradlew
 
-      - name: Build e Testes Unitários
-        # Executa a task 'test' que já exclui o ProdutoUITest no seu build.gradle 
+      - name: Executar Build e Testes
+        # Define o working-directory para o Gradle saber onde está o build.gradle
+        working-directory: ./Sprint-RestAPI
         run: ./gradlew clean test
-
-      - name: Gerar Resumo do Job
-        if: always()
-        run: |
-          echo "### Relatório de Build" >> $GITHUB_STEP_SUMMARY
-          echo "| Status | Etapa |" >> $GITHUB_STEP_SUMMARY
-          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
-          echo "| ✅ | Compilação e Testes Unitários finalizados |" >> $GITHUB_STEP_SUMMARY
