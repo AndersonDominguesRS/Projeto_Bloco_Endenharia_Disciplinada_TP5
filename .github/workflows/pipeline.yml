@@ -43,7 +43,7 @@ jobs:
         name: relatorio-cobertura
         path: Sprint-RestAPI-TP5/build/reports/jacoco/test/html/
 
-- name: Gerar Resumo Detalhado (Monitoramento)
+    - name: Gerar Resumo no GitHub
       if: always()
       run: |
         echo "##monitoramento de Execução - TP5" >> $GITHUB_STEP_SUMMARY
