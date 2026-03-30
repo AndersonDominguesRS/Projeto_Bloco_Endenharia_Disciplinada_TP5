@@ -18,21 +18,16 @@ public class ProdutoService {
         this.produtoRepository = produtoRepository;
     }
 
-    public List<Produto> findAll() {
-        return produtoRepository.findAll();
+    public List<Produto> findAll( ) {
+        return produtoRepository.findAll( );
     }
 
-    /**
-     * Salva um produto aplicando as Cláusulas de Guarda exigidas no TP5.
-     * O método falha o mais rápido possível (fail-fast).
-     */
     public Produto save(Produto produto) {
         validarProduto(produto);
         return produtoRepository.save(produto);
     }
 
     private void validarProduto(Produto produto) {
-        // --- Cláusulas de Guarda (Substituem IFs aninhados) ---
 
         if (produto == null) {
             throw new IllegalArgumentException(ERR_PRODUTO_NULL);

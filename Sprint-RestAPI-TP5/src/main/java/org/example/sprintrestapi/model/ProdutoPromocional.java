@@ -17,7 +17,8 @@ public class ProdutoPromocional extends Produto {
     }
 
     @Override
-    public Double getPrecoVenda() {
+    public Double getPrecoVenda( ) {
         return this.getPreco() != null ? this.getPreco() * 0.90 : 0.0;
+
     }
 }

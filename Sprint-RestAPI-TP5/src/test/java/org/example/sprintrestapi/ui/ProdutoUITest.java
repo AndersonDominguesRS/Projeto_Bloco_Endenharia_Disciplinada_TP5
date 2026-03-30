@@ -40,7 +40,7 @@ public class ProdutoUITest {
     }
 
     @Test
-    public void testFluxoCompletoEIntegracao() {
+    public void testFluxoCompletoEIntegracao( ) {
         driver.get("http://localhost:8080");
 
         WebElement inputNome = wait.until(ExpectedConditions.elementToBeClickable(By.id("nome")));
@@ -58,7 +58,7 @@ public class ProdutoUITest {
         WebElement botaoExcluir = wait.until(ExpectedConditions.elementToBeClickable(By.className("btn-danger")));
 
         try {
-            botaoExcluir.click();
+            botaoExcluir.click( );
         } catch (Exception e) {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("arguments[0].click();", botaoExcluir);
