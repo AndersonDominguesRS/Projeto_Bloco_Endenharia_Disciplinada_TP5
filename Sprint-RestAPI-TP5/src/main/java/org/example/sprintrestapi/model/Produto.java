@@ -30,5 +30,17 @@ public abstract class Produto {
         return new ProdutoPadrao(nome, quantidade, preco);
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
     public abstract Double getPrecoVenda();
 }
